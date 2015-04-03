@@ -1,0 +1,2 @@
+module RestroomHelper
+end
