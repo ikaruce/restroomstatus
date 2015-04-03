@@ -6,7 +6,7 @@ class RestroomController < ApplicationController
 
   def status
     @status = report_status
-    render json:{"id" => "2", "status" => @status } 
+    render json:{"id" => "2", "toilet_status" => @status } 
   end
 
 private 
