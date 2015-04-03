@@ -1,3 +1,5 @@
+require 'open3'
+
 class RestroomController < ApplicationController
   def show
     @status = "4124cm"
@@ -11,7 +13,9 @@ class RestroomController < ApplicationController
 
 private 
   def report_status
-    distance = system("sudo python c.py")
+    stdin, stdout, stderr, wait_thr = Open3.popen3("sudo python c.py ")
+    distance = stdout.gets(nil)
+    stdout.close
     begin
       if distance.to_f < 50
         return "full"
