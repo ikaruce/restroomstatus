@@ -1,3 +1,9 @@
+<% if @status == "FAIL" %>
 <pre>
-  <%= @status %>
+  센서 상태가 비정상입니다. 센서를 확인해주세요. 
 </pre>
+<% else %>
+<pre>
+  현재 화장실은 <%= @status %> 상태입니다. 
+</pre>
+<% end %>

@@ -2,7 +2,7 @@ require 'open3'
 
 class RestroomController < ApplicationController
   def show
-    @status = "4124cm"
+    @status = report_status
     puts @status
   end
 
