@@ -17,6 +17,7 @@ private
         return "full"
       else 
         return "empty"
+      end
     rescue
       puts "ERROR OCCURRED -- distance : " + distance
       return "FAIL"
