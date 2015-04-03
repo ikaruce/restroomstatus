@@ -19,7 +19,7 @@ private
         return "empty"
       end
     rescue
-      puts "ERROR OCCURRED -- distance : " + distance
+      puts "ERROR OCCURRED -- distance : " + distance.to_s
       return "FAIL"
     end
   end 
