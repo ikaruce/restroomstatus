@@ -1,6 +1,8 @@
 require 'open3'
 
 class RestroomController < ApplicationController
+  RESTROOM_STATUS = "empty"
+  SERVER_ADDRESS = "http://172.20.10.4:3000/"
   def show
     @status = report_status
     puts @status
@@ -9,6 +11,14 @@ class RestroomController < ApplicationController
   def status
     @status = report_status
     render json:{"id" => "2", "toilet_status" => @status } 
+  end
+
+  # worker interval settings in /schedule.rb
+  def self.check_status
+    current_status = report_status
+    unless current_status == RESTROOM_STATUS
+      send_status current_status 
+    end
   end
 
 private 
@@ -25,6 +35,10 @@ private
     rescue
       puts "ERROR OCCURRED -- distance : " + distance.to_s
       return "FAIL"
+    end
+
+    def send_status current_status
+      HTTParty.get( SERVER_ADDRESS + current_status.to_s + "/2")
     end
   end 
 end
