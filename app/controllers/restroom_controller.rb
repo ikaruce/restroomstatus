@@ -2,7 +2,7 @@ require 'open3'
 
 class RestroomController < ApplicationController
   include HTTParty
-  RESTROOM_STATUS = "empty"
+  $RESTROOM_STATUS = "init"
   SERVER_ADDRESS = "http://172.20.10.4:3000/"
   def show
     @status = report_status
@@ -18,8 +18,9 @@ class RestroomController < ApplicationController
   def self.check_status
     current_status = report_status
     puts current_status
-    unless current_status == RESTROOM_STATUS
+    unless current_status == $RESTROOM_STATUS
       send_status current_status 
+      $RESTROOM_STATUS = current_status.to_s
     end
   end
 
@@ -41,6 +42,9 @@ class RestroomController < ApplicationController
   end
 
   def self.send_status current_status
-    HTTParty.get( SERVER_ADDRESS + current_status.to_s + "/2")
+    begin
+      HTTParty.get( SERVER_ADDRESS + current_status.to_s + "/2")
+    rescue
+    end
   end
 end
