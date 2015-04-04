@@ -1,7 +1,7 @@
 require 'open3'
 
 class RestroomController < ApplicationController
-  include 'HTTParty'
+  include HTTParty
   RESTROOM_STATUS = "empty"
   SERVER_ADDRESS = "http://172.20.10.4:3000/"
   def show
@@ -17,13 +17,14 @@ class RestroomController < ApplicationController
   # worker interval settings in /schedule.rb
   def self.check_status
     current_status = report_status
+    puts current_status
     unless current_status == RESTROOM_STATUS
       send_status current_status 
     end
   end
 
  
-  def report_status
+  def self.report_status
     stdin, stdout, stderr, wait_thr = Open3.popen3("sudo python c.py ")
     distance = stdout.gets(nil)
     stdout.close
@@ -37,9 +38,9 @@ class RestroomController < ApplicationController
       puts "ERROR OCCURRED -- distance : " + distance.to_s
       return "FAIL"
     end
+  end
 
-    def send_status current_status
-      HTTParty.get( SERVER_ADDRESS + current_status.to_s + "/2")
-    end
-  end 
+  def self.send_status current_status
+    HTTParty.get( SERVER_ADDRESS + current_status.to_s + "/2")
+  end
 end
