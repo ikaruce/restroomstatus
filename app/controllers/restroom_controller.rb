@@ -1,6 +1,7 @@
 require 'open3'
 
 class RestroomController < ApplicationController
+  include 'HTTParty'
   RESTROOM_STATUS = "empty"
   SERVER_ADDRESS = "http://172.20.10.4:3000/"
   def show
@@ -21,7 +22,7 @@ class RestroomController < ApplicationController
     end
   end
 
-private 
+ 
   def report_status
     stdin, stdout, stderr, wait_thr = Open3.popen3("sudo python c.py ")
     distance = stdout.gets(nil)
